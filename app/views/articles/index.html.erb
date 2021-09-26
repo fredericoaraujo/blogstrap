@@ -1,7 +1,11 @@
 <%= link_to "Novo Artigo", new_article_path, class: 'btn btn-primary' %>
 
-<%= render 'longer_featured' %>
-<%= render 'featured_post' %>
+<%= render_if @highlights[0].present?, 'longer_featured', article: @highlights[0] %>
+<div class="row mb-2">
+    <%= render_if @highlights[1].present?, 'featured_post', article: @highlights[1] %>
+    <%= render_if @highlights[2].present?, 'featured_post', article: @highlights[2] %>
+</div>
+
 
 <div class="row g-5">
     <div class="col-md-8">
