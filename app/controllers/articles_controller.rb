@@ -1,11 +1,10 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
   def index
-    @highlights = Article.order(created_at: :desc).first(3)
-    current_page = (params[:page] || 1).to_i
-
+    @highlights = Article.desc_order.first(3)
     highlights_id = @highlights.pluck(:id).join(',')
-    @articles = Article.order(created_at: :desc).where("id NOT IN(#{highlights_id})").page(current_page).per(2)
+    current_page = (params[:page] || 1).to_i
+    @articles = Article.wthout_highlights(highlights_id).desc_order.page(current_page)
   end
 
   def show; end
