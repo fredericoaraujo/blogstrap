@@ -1,36 +1,17 @@
-<h1>Olá, Rails!</h1>
+<%= link_to "Novo Artigo", new_article_path, class: 'btn btn-primary' %>
 
-<%= link_to "Novo Artigo", new_article_path %>
+<%= render 'longer_featured' %>
+<%= render 'featured_post' %>
 
-<ul>
-    <% @articles.each do |article| %>
-    <li>
-        <%= link_to article.title, article %>
-    </li>
-    <% end %>
-</ul>
+<div class="row g-5">
+    <div class="col-md-8">
+        <h3 class="pb-4 mb-4 fst-italic border-bottom">
+            From the Firehose
+        </h3>
 
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
+        <%= render @articles %>
+        <%= render 'pagination' %>
     </div>
+
+    <%= render 'rightside' %>
 </div>
