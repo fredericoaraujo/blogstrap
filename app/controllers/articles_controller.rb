@@ -16,8 +16,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      flash[:success] = 'Article successfully created'
-      redirect_to @article
+      redirect_to @article, notice: 'Article successfully created'
     else
       flash[:error] = 'Something went wrong'
       render 'new'
@@ -28,8 +27,7 @@ class ArticlesController < ApplicationController
 
   def update
     if @article.update(article_params)
-      flash[:success] = 'Article was successfully updated'
-      redirect_to @article
+      redirect_to @article, notice: 'Article was successfully updated'
     else
       flash[:error] = 'Something went wrong'
       render 'edit'
