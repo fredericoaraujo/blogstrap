@@ -1,4 +1,4 @@
-<%= link_to "Novo Artigo", new_article_path, class: 'btn btn-primary' %>
+<%= link_to "Novo Artigo", new_article_path, class: 'btn btn-primary' if user_signed_in? %>
 
 <%= render_if @highlights[0].present?, 'longer_featured', article: @highlights[0] %>
 <div class="row mb-2">
