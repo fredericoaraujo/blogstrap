@@ -6,7 +6,7 @@
             </strong>
             <h3 class="mb-0"><%= article.title %></h3>
             <div class="mb-1 text-muted">
-                <%= month_day_comma_year(article.created_at) %> by <%= article.user.email %>
+                <%= render 'article_details', article: article %>
             </div>
             <p class="card-text mb-auto"><%= truncate(article.body, length: 100) %></p>
             <p><%= link_to 'Continue reading ...', article, class: 'stretched-link'%></p>
