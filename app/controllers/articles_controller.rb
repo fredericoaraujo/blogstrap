@@ -4,13 +4,14 @@ class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_article, only: %i[show edit update destroy]
   def index
-    category_filter = Category.find_by_name(params[:category]) if params[:category].present?
-    @highlights = Article.filter_by_category(category_filter).desc_order.first(3)
+    @categories = Category.sorted
+    category_filter = @categories.select { |c| c.name == params[:category] }[0] if params[:category].present?
+    @highlights = Article.includes(:category, :user).filter_by_category(category_filter).desc_order.first(3)
     highlights_id = @highlights.pluck(:id).join(',')
     current_page = (params[:page] || 1).to_i
 
-    @articles = Article.wthout_highlights(highlights_id).filter_by_category(category_filter).desc_order.page(current_page)
-    @categories = Category.sorted
+    @articles = Article.includes(:category,
+                                 :user).wthout_highlights(highlights_id).filter_by_category(category_filter).desc_order.page(current_page)
   end
 
   def show; end
