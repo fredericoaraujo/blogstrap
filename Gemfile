@@ -67,3 +67,5 @@ gem "pundit", "~> 2.1"
 gem "rolify", "~> 6.0"
 
 gem "faker", "~> 2.19", :group => :development
+
+gem "groupdate", "~> 5.2"

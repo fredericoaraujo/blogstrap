@@ -6,12 +6,20 @@ class ArticlesController < ApplicationController
   def index
     @categories = Category.sorted
     category_filter = @categories.select { |c| c.name == params[:category] }[0] if params[:category].present?
-    @highlights = Article.includes(:category, :user).filter_by_category(category_filter).desc_order.first(3)
+    @highlights = Article.includes(:category, :user)
+                         .filter_by_category(category_filter)
+                         .filter_by_archive(params[:month_year])
+                         .desc_order.first(3)
     highlights_id = @highlights.pluck(:id).join(',')
     current_page = (params[:page] || 1).to_i
 
-    @articles = Article.includes(:category,
-                                 :user).wthout_highlights(highlights_id).filter_by_category(category_filter).desc_order.page(current_page)
+    @articles = Article.includes(:category, :user)
+                       .wthout_highlights(highlights_id)
+                       .filter_by_category(category_filter)
+                       .filter_by_archive(params[:month_year])
+                       .desc_order.page(current_page)
+
+    @archives = Article.group_by_month(:created_at, format: '%B %Y').count
   end
 
   def show; end
