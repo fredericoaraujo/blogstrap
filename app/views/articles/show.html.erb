@@ -9,4 +9,10 @@
     <%= link_to "Destroy", article_path(@article), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' if policy(@article).destroy? %>
 
     <p><%= link_to "Voltar", articles_path, class: 'btn btn-link' %></p>
+
+    <h2>Comments</h2>
+    <%= render @article.comments %>
+
+    <%= render 'comments/form', article: @article if policy(:comment).create? %>
+
 </article>
