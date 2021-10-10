@@ -69,3 +69,5 @@ gem "rolify", "~> 6.0"
 gem "faker", "~> 2.19", :group => :development
 
 gem "groupdate", "~> 5.2"
+
+gem "rubocop", "~> 1.22", :group => :devlopment

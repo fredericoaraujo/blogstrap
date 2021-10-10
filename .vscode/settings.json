@@ -1,0 +1,5 @@
+{
+    "key": "ctrl+alt+l",          
+    "command": "ruby.rubocopAutocorrect",
+    "when": "editorLangId == 'ruby'"
+}

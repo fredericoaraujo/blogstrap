@@ -5,19 +5,8 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
   before_action :set_categories, only: %i[index new edit create update]
   def index
-    category_filter = @categories.select { |c| c.name == params[:category] }[0] if params[:category].present?
-    @highlights = Article.includes(:category, :user)
-                         .filter_by_category(category_filter)
-                         .filter_by_archive(params[:month_year])
-                         .desc_order.first(3)
-    highlights_id = @highlights.pluck(:id).join(',')
-    current_page = (params[:page] || 1).to_i
-
-    @articles = Article.includes(:category, :user)
-                       .wthout_highlights(highlights_id)
-                       .filter_by_category(category_filter)
-                       .filter_by_archive(params[:month_year])
-                       .desc_order.page(current_page)
+    @highlights = highlights
+    @articles = articles
 
     @archives = Article.group_by_month(:created_at, format: '%B %Y').count
   end
@@ -69,5 +58,28 @@ class ArticlesController < ApplicationController
 
   def set_categories
     @categories = Category.sorted
+  end
+
+  def highlights
+    Article.includes(:category, :user)
+           .filter_by_category(category_filter)
+           .filter_by_archive(params[:month_year])
+           .desc_order
+           .first(3)
+  end
+
+  def articles
+    current_page = (params[:page] || 1).to_i
+    highlights_id = @highlights.pluck(:id).join(',')
+    Article.includes(:category, :user)
+           .wthout_highlights(highlights_id)
+           .filter_by_category(category_filter)
+           .filter_by_archive(params[:month_year])
+           .desc_order
+           .page(current_page)
+  end
+
+  def category_filter
+    @categories.select { |c| c.name == params[:category] }[0] if params[:category].present?
   end
 end
